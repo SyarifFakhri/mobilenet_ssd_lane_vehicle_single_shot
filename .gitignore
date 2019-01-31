@@ -1,0 +1,4 @@
+/training/*
+ssd_mobilenet*
+/test*
+/images
