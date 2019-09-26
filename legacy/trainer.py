@@ -387,23 +387,27 @@ def train(create_tensor_dict_fn,
           train_config.fine_tune_checkpoint_type = 'detection'
         else:
           train_config.fine_tune_checkpoint_type = 'classification'
+
+      # detection_model._extract_features_scope = "MobilenetV2" #it will only search for mobilenet scope
+
       var_map = detection_model.restore_map(
           fine_tune_checkpoint_type=train_config.fine_tune_checkpoint_type,
           load_all_detection_checkpoint_vars=(
               train_config.load_all_detection_checkpoint_vars))
 
-      print("var map: ", var_map)
+      #print("var map: ", var_map)
 
       available_var_map = (variables_helper.
                            get_variables_available_in_checkpoint(
                                var_map, train_config.fine_tune_checkpoint,
                                include_global_step=False))
-      
+
       init_saver = tf.train.Saver(available_var_map)
 
       def initializer_fn(sess):
+        print("restoring mobilenet: ")
         init_saver.restore(sess, train_config.fine_tune_checkpoint)
-
+        print("train_config.fine_tune_checkpoint: ", train_config.fine_tune_checkpoint)
       init_fn = initializer_fn
 
     slim.learning.train(

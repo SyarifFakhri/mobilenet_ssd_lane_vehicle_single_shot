@@ -390,6 +390,7 @@ class SSDMetaArch(model.DetectionModel):
     else:
       # Slim feature extractors get an explicit naming scope
       self._extract_features_scope = 'FeatureExtractor' #""
+      #self._extract_features_scope = "MobilenetV2"
 
     if encode_background_as_zeros:
       background_class = [0]
@@ -561,10 +562,8 @@ class SSDMetaArch(model.DetectionModel):
                           is_training=(self._is_training and
                                        not self._freeze_batchnorm),
                           updates_collections=batchnorm_updates_collections):
-        with tf.variable_scope(None, self._extract_features_scope,
-                               [preprocessed_inputs]):
-          feature_maps = self._feature_extractor.extract_features(
-              preprocessed_inputs)
+        with tf.variable_scope(None, self._extract_features_scope,[preprocessed_inputs]):
+          feature_maps = self._feature_extractor.extract_features(preprocessed_inputs)
 
     feature_map_spatial_dims = self._get_feature_map_spatial_dims(
         feature_maps)

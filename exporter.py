@@ -392,9 +392,12 @@ def _export_inference_graph(input_type,
       f.write(str(inference_graph_def))
 
   if additional_output_tensor_names is not None:
-    output_node_names = ','.join(outputs.keys()+additional_output_tensor_names)
+    output_node_names = ','.join(list(outputs.keys())+additional_output_tensor_names)
   else:
     output_node_names = ','.join(outputs.keys())
+
+  print("OUTPUT NODE NAMES:")
+  print(output_node_names)
 
   frozen_graph_def = freeze_graph.freeze_graph_with_def_protos(
       input_graph_def=tf.get_default_graph().as_graph_def(),

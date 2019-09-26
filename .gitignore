@@ -2,3 +2,8 @@
 ssd_mobilenet*
 /test*
 /images
+/training*
+REC*
+delloyd*
+/inference*
+MobileNetCheckpoint/*
